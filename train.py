@@ -50,21 +50,21 @@ def create_train_model(hidden_nodes, num_iters,num_samples):
 if __name__=="__main__":
     print("Initialization");
 
-    X_Data=pickle.load(open('X','rb'));
-    Y_Data=pickle.load(open('Y','rb'));
-    n=len(X_Data);
-    split=int(0.8*n);
-    X_train=X_Data[0:split];
-    Y_train=Y_Data[0:split];
+    X_Data=pickle.load(open('X','rb'))
+    Y_Data=pickle.load(open('Y','rb'))
+    n=len(X_Data)
+    split=int(0.8*n)
+    X_train=X_Data[0:split]
+    Y_train=Y_Data[0:split]
     X_test=X_Data[split:n]
-    Y_test=Y_Data[split:n];
+    Y_test=Y_Data[split:n]
 
-    print("Training Starts");
+    print("Training Starts")
 
-    num_hidden_nodes = [5, 10, 20, 40, 50, 80, 100]  
-    loss_plot = {5: [], 10: [], 20: [], 40:[], 50:[], 80:[], 100:[]}  
-    weights1 = {5: None, 10: None, 20: None, 40:None, 50:None, 80:None, 100:None}  
-    weights2 = {5: None, 10: None, 20: None, 40:None, 50:None, 80:None, 100:None}  
+    num_hidden_nodes = [5, 10, 20, 40]  
+    loss_plot = {5: [], 10: [], 20: [], 40:[]}  
+    weights1 = {5: None, 10: None, 20: None, 40:None}  
+    weights2 = {5: None, 10: None, 20: None, 40:None}  
     num_iters = 50
     for hidden_nodes in num_hidden_nodes:  
         weights1[hidden_nodes], weights2[hidden_nodes] = create_train_model(hidden_nodes, num_iters,split)
@@ -87,9 +87,9 @@ if __name__=="__main__":
         with tf.Session() as sess:
             sess.run(init)
             y_est_np = sess.run(y_est, feed_dict={X: X_test, Y: Y_test})
-            numbs = [];
+            numbs = []
             for estimate,correct in zip(y_est_np,Y_test):
                 if(round(estimate[0])==correct[0] and round(estimate[1])==correct[1]):
-                   numbs.append('true');
+                   numbs.append('true')
             accuracy = 100 * len(numbs) / (n-split)
             print('Network architecture 16-%d-2 accuracy: %.2f%%' % (hidden_nodes, accuracy))
